@@ -19,8 +19,8 @@
  *    'Tue, 26 Jan 2016 13:48:02 GMT' => Date()
  *    'Sun, 17 May 1998 03:00:00 GMT+01' => Date()
  */
-function parseDataFromRfc2822(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromRfc2822(value) {
+  return new Date(value);
 }
 
 /**
@@ -34,8 +34,8 @@ function parseDataFromRfc2822(/* value */) {
  *    '2016-01-19T16:07:37+00:00'    => Date()
  *    '2016-01-19T08:07:37Z' => Date()
  */
-function parseDataFromIso8601(/* value */) {
-  throw new Error('Not implemented');
+function parseDataFromIso8601(value) {
+  return new Date(value);
 }
 
 
@@ -53,8 +53,9 @@ function parseDataFromIso8601(/* value */) {
  *    Date(2012,1,1)    => true
  *    Date(2015,1,1)    => false
  */
-function isLeapYear(/* date */) {
-  throw new Error('Not implemented');
+function isLeapYear(date) {
+  const newDate = date.getFullYear();
+  return ((newDate % 4 === 0 && newDate % 100 !== 0) || newDate % 400 === 0);
 }
 
 
@@ -73,8 +74,18 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  const newDate = (endDate.getTime() - startDate.getTime());
+  let hours = Math.floor(newDate / (60 * 60 * 1000));
+  let min = Math.floor((newDate / (60 * 1000)) % 60);
+  let sec = Math.floor((newDate / 1000) % 60);
+  let milsec = newDate % 1000;
+  if (hours < 10) hours = `0${hours}`;
+  if (min < 10) min = `0${min}`;
+  if (sec < 10) sec = `0${sec}`;
+  if (milsec < 100) milsec = `00${milsec}`;
+  else if (milsec < 10) milsec = `0${milsec}`;
+  return `${hours}:${min}:${sec}.${milsec}`;
 }
 
 
