@@ -126,8 +126,21 @@ function isTriangle(a, b, c) {
  *   { top:20, left:20, width: 20, height: 20 }    =>  false
  *
  */
-function doRectanglesOverlap(/* rect1, rect2 */) {
-  throw new Error('Not implemented');
+function doRectanglesOverlap(rect1, rect2) {
+  // throw new Error('Not implemented');
+  if (rect1.left > rect2.left) {
+    if (rect1.left - rect2.left > rect2.width) return false;
+  }
+  if (rect1.left < rect2.left) {
+    if (rect2.left - rect1.left > rect1.width) return false;
+  }
+  if (rect1.top < rect2.top) {
+    if (rect2.top - rect1.top > rect1.height) return false;
+  }
+  if (rect1.top > rect2.top) {
+    if (rect1.top - rect2.top > rect2.height) return false;
+  }
+  return true;
 }
 
 
@@ -157,8 +170,12 @@ function doRectanglesOverlap(/* rect1, rect2 */) {
  *   { center: { x:0, y:0 }, radius:10 },  { x:10, y:10 }   => false
  *
  */
-function isInsideCircle(/* circle, point */) {
-  throw new Error('Not implemented');
+function isInsideCircle(circle, point) {
+  // throw new Error('Not implemented');
+  const x = (Math.abs(point.x - circle.center.x));
+  const y = (Math.abs(point.y - circle.center.y));
+
+  return circle.radius > x + y;
 }
 
 
@@ -173,8 +190,14 @@ function isInsideCircle(/* circle, point */) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  // throw new Error('Not implemented');
+  const splitStr = str.split('');
+  for (let i = 0; i < splitStr.length; i += 1) {
+    const ans = splitStr.filter((element) => element === splitStr[i]);
+    if (ans.length === 1) return ans[0];
+  }
+  return null;
 }
 
 
@@ -200,8 +223,9 @@ function findFirstSingleChar(/* str */) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  // throw new Error('Not implemented');
+  return `${isStartIncluded ? '[' : '('}${Math.min(a, b)}, ${Math.max(a, b)}${isEndIncluded ? ']' : ')'}`;
 }
 
 
@@ -217,8 +241,9 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  // throw new Error('Not implemented');
+  return str.split('').reverse().join('');
 }
 
 
@@ -234,8 +259,9 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  // throw new Error('Not implemented');
+  return num.toString().split('').reverse().join('');
 }
 
 
@@ -277,8 +303,12 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  // throw new Error('Not implemented');
+  const splitNum = String(num).split('');
+  const sum = splitNum.reduce((accum, current) => accum + +current, 0);
+  if (sum > 9) return getDigitalRoot(sum);
+  return sum;
 }
 
 
@@ -328,8 +358,9 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  // throw new Error('Not implemented');
+  return num.toString(n);
 }
 
 
@@ -345,8 +376,16 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  // throw new Error('Not impleented');
+  const res = [];
+  const splitDirs = pathes.map((path) => path.split('/'));
+  for (let i = 0; i < splitDirs[0].length; i += 1) {
+    const ans = splitDirs.filter((path) => path[i] === splitDirs[0][i]);
+    if (ans.length === splitDirs.length) res.push(splitDirs[0][i]);
+  }
+  if (!res.length) return '';
+  return `${res.join('/')}/`;
 }
 
 
